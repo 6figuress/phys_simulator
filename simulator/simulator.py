@@ -7,6 +7,9 @@ from enum import Enum
 from .tools import getPath
 
 
+currentSimulator = None
+
+
 class RobotVersion(Enum):
     GRIPPER = 0
     PEN = 1
@@ -111,7 +114,6 @@ class Simulator:
         else:
             return py.getJointInfo(body_id, link_index)[12].decode("utf-8")
 
-
     def resetAtPosition(self, angles):
         """
         Reset the robot to the specified angles.
@@ -202,13 +204,19 @@ class Simulator:
         pen_pos = py.getLinkState(self.robot_id, self.pen_joint)[0]
         isInArea = True
         if pen_pos[0] < x_bounds[0] or pen_pos[0] > x_bounds[1]:
-            self._log(f"The pen is currently out of the working area in X. (current X : {pen_pos[0]}, min - max : {x_bounds[0]} - {x_bounds[1]})")
+            self._log(
+                f"The pen is currently out of the working area in X. (current X : {pen_pos[0]}, min - max : {x_bounds[0]} - {x_bounds[1]})"
+            )
             isInArea = False
         if pen_pos[1] < y_bounds[0] or pen_pos[1] > y_bounds[1]:
-            self._log(f"The pen is currently out of the working area in Y. (current Y : {pen_pos[0]}, min - max : {y_bounds[0]} - {y_bounds[1]})")
+            self._log(
+                f"The pen is currently out of the working area in Y. (current Y : {pen_pos[0]}, min - max : {y_bounds[0]} - {y_bounds[1]})"
+            )
             isInArea = False
         if pen_pos[2] < z_bounds[0] or pen_pos[2] > z_bounds[1]:
-            self._log(f"The pen is currently out of the working area in Z. (current Z : {pen_pos[0]}, min - max : {z_bounds[0]} - {z_bounds[1]})")
+            self._log(
+                f"The pen is currently out of the working area in Z. (current Z : {pen_pos[0]}, min - max : {z_bounds[0]} - {z_bounds[1]})"
+            )
             isInArea = False
         # If the pen is within the working area, return True
         return isInArea
@@ -259,13 +267,46 @@ class Simulator:
                     hasCollision = True  # Collision detected
 
         return hasCollision
-        
 
 
+def createSimulator(
+    gui=False,
+    deltaT=1 / 1000,
+    log=False,
+    environment: list[URDFAddon] = [
+        URDFAddon(
+            getPath("urdfs/pen_holder/pen_holder.urdf"),
+            position=[1.0, 0, 0.0],
+            quaternion=[0.0, 0.0, 0.0, 0.1],
+        )
+    ],
+):
+    """
+    Create a new simulator instance. If one already exists, it will be returned.
+
+    :param gui: if True, the simulator will run in GUI mode
+    :param deltaT: time step for the simulation
+    :param log: if True, the simulator will log messages
+    :return: the simulator instance
+    """
+    global currentSimulator
+    if currentSimulator is None:
+        currentSimulator = Simulator(
+            gui=gui, deltaT=deltaT, log=log, environment=environment
+        )
+    else:
+        raise Exception("Simulator was already created !")
+    return currentSimulator
+
+
+def getSimulator():
+    if currentSimulator == None:
+        raise Exception("Simulator not created yet")
+    return currentSimulator
 
 
 if __name__ == "__main__":
-    simu = Simulator(gui = True, log=True)
+    simu = Simulator(gui=True, log=True)
     print(simu._getLinkName(11))
 
     # Check for potential self-collisions within 5mm

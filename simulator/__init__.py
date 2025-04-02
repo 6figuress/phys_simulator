@@ -1,2 +1,2 @@
 from .tools import getPath
-from .simulator import Simulator, RobotVersion
+from .simulator import createSimulator, getSimulator, RobotVersion, URDFAddon

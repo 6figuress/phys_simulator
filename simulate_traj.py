@@ -1,6 +1,6 @@
 import json
 import os
-from simulator import Simulator
+from simulator import createSimulator, getSimulator
 
 def readJson(path):
     points = []
