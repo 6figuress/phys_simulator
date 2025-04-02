@@ -15,7 +15,7 @@ filename = "traj.json"
 
 path = readJson(filename)
 
-sim = Simulator(gui=False, log= True)
+sim = createSimulator(gui=False, log=True)
 
 res = sim.validateTrajectory(path)
 
