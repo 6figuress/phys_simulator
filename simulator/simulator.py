@@ -237,7 +237,7 @@ class Simulator:
                 ):
                     continue
                 self._log(
-                    f"⚠️ Self-Collision: {self._getLinkName(self.robot_id, contact[3])} and {self._getLinkName(self.robot_idcontact[4])} are colliding."
+                    f"⚠️ Self-Collision: {self._getLinkName(self.robot_id, contact[3])} and {self._getLinkName(self.robot_id, contact[4])} are colliding."
                 )
                 hasCollision = True
 
