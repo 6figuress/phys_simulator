@@ -12,10 +12,6 @@ setup(
     author="6 Figures",
     description="A package to simulate the ur3e robot arm physics for security usages",
     package_data={
-        "simulator": [
-            "urdfs/*",
-            "urdfs/collision/*",
-            "urdfs/visual/*",
-        ],
+        "simulator": ["urdfs/**"],
     },
 )
