@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot name="pen_holder">
+    <link name="pen_link">
+        <collision>
+            <geometry>
+                <mesh filename="penHolder.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <visual>
+            <geometry>
+                <mesh filename="penHolder.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="0"/>
+            <origin xyz="1 1 0.2"/>  <!-- Moves it slightly below 0 -->
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+        </inertial>
+    </link>
+</robot>

@@ -8,3 +8,12 @@ dependencies = [
     "numpy>=2.2.4",
     "pybullet>=3.2.7",
 ]
+
+[dependency-groups]
+dev = [
+    "ipdb>=0.13.13",
+    "simulator",
+]
+
+[tool.uv.sources]
+simulator = { workspace = true }
